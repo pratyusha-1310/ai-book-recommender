@@ -66,6 +66,13 @@ export default function BooksPage() {
                 >
                     Browse Books
                 </Link>
+
+                <Link
+                    href="/shelves"
+                    className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
+                >
+                    My Shelves
+                </Link>
             </div>
         </nav>
         <section className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_80px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 sm:p-8 lg:p-10">
