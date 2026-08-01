@@ -1,4 +1,12 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import BookCard from "@/components/BookCard";
 import LoginButton from "@/components/LoginButton";
+import { searchBooks} from "@/lib/googleBooks";
+import type { Book } from "@/types/book";
+
 const featuredBooks = [
   {
     title: "The Midnight Library",
@@ -47,6 +55,41 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [isLoadingBooks, setIsLoadingBooks] = useState(true);
+  const [booksError, setBooksError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadBooks = async () => {
+      setIsLoadingBooks(true);
+      setBooksError(null);
+
+      try {
+        const results = await searchBooks("fiction", 6);
+
+        if (isMounted) {
+          setBooks(results);
+        }
+      } catch {
+        if (isMounted) {
+          setBooksError("We couldn’t load popular fiction books right now. Please try again soon.");
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingBooks(false);
+        }
+      }
+    };
+
+    void loadBooks();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(129,140,248,0.25),_transparent_35%),linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_100%)] px-4 py-6 text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.28),_transparent_35%),linear-gradient(135deg,_#020617_0%,_#111827_100%)] dark:text-slate-100 sm:px-6 lg:px-8 lg:py-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:gap-8">
@@ -141,6 +184,33 @@ export default function Home() {
         </section>
 
         <section className="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 sm:p-8">
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                Popular Fiction
+              </p>
+              <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Fresh picks from the Google Books API</h3>
+            </div>
+          </div>
+
+          {isLoadingBooks ? (
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300">
+              Loading popular fiction books...
+            </div>
+          ) : booksError ? (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-700 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-300">
+              {booksError}
+            </div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {books.map((book) => (
+                <BookCard key={book.id || book.title} book={book} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 sm:p-8">
           <div className="flex flex-col gap-4 rounded-[1.5rem] border border-slate-200 bg-gradient-to-r from-indigo-600 via-violet-500 to-fuchsia-500 p-6 text-white shadow-lg sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Premium experience</p>
@@ -161,9 +231,9 @@ export default function Home() {
                 </p>
                 <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Popular picks this week</h3>
               </div>
-              <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
+              <Link href="/books" className="text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
                 View all
-              </a>
+              </Link>
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
