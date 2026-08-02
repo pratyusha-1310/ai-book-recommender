@@ -111,12 +111,12 @@ export default function Home() {
               </p>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="#featured"
+                <Link
+                  href="/recommend"
                   className="rounded-full bg-gradient-to-r from-indigo-600 to-violet-500 px-6 py-3 text-center text-sm font-semibold text-white transition hover:opacity-90"
                 >
-                  Get Started
-                </a>
+                  Get Recommendations
+                </Link>
                 <a
                   href="#genres"
                   className="rounded-full border border-slate-300 bg-white/80 px-6 py-3 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"

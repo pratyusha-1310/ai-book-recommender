@@ -12,6 +12,7 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -52,6 +53,10 @@ export default function Navbar() {
       href: "/books",
     },
     {
+      label: "Recommendations",
+      href: "/recommend",
+    },
+    {
       label: "My Shelves",
       href: "/shelves",
     },
@@ -78,7 +83,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <nav className="flex items-center gap-1 sm:gap-2">
+        <nav className="hidden items-center gap-1 sm:flex sm:gap-2">
             {navItems.map((item) => {
                 const isActive =
                     item.href === "/"
@@ -176,7 +181,66 @@ export default function Navbar() {
                 </button>
             )}
         </nav>
+        <button
+        type="button"
+        onClick={() => setIsMobileMenuOpen((current) => !current)}
+        className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-xl text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 sm:hidden"
+        aria-label="Open navigation menu"
+        aria-expanded={isMobileMenuOpen}
+        >
+        {isMobileMenuOpen ? "✕" : "☰"}
+        </button>
       </div>
+
+      {isMobileMenuOpen && (
+        <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:hidden">
+          <div className="flex flex-col gap-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            {!isCheckingAuth && user && (
+              <>
+                <div className="my-2 border-t border-slate-200 dark:border-slate-700" />
+
+                <Link
+                  href="/settings"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+                >
+                  ⚙️ Settings
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="rounded-xl px-4 py-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
+                >
+                  Sign Out
+                </button>
+              </>
+            )}
+
+            {!isCheckingAuth && !user && (
+              <button
+                type="button"
+                onClick={handleSignIn}
+                className="mt-1 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white"
+              >
+                Sign In
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    
     </header>
   );
 }

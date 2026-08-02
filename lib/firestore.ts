@@ -28,6 +28,7 @@ export type ShelfType =
 
 export interface SavedBook extends Book{
     shelf: ShelfType;
+    personalRating: number;
 }
 export async function saveBookToShelf(
   userId: string,
@@ -78,6 +79,7 @@ export async function getUserBooks(
       averageRating: data.averageRating ?? 0,
       ratingsCount: data.ratingsCount ?? 0,
       shelf: data.shelf as ShelfType,
+      personalRating: data.personalRating ?? 0,
     };
   });
 }
@@ -186,4 +188,50 @@ export async function getBookPersonalData(
     personalRating: data.personalRating ?? 0,
     review: data.review ?? "",
   };
+}
+export interface ReadingGoals {
+enabled: boolean;
+bookGoal: number;
+}
+
+export async function saveReadingGoals(
+userId: string,
+enabled: boolean,
+bookGoal: number
+): Promise<void> {
+const userRef = doc(db, "users", userId);
+
+await setDoc(
+    userRef,
+    {
+    readingGoals: {
+        enabled,
+        bookGoal,
+        updatedAt: serverTimestamp(),
+    },
+    },
+    { merge: true }
+);
+}
+
+export async function getReadingGoals(
+userId: string
+): Promise<ReadingGoals> {
+const userRef = doc(db, "users", userId);
+const userSnap = await getDoc(userRef);
+
+if (!userSnap.exists()) {
+    return {
+    enabled: false,
+    bookGoal: 12,
+    };
+}
+
+const data = userSnap.data();
+const readingGoals = data.readingGoals;
+
+return {
+    enabled: readingGoals?.enabled ?? false,
+    bookGoal: readingGoals?.bookGoal ?? 12,
+};
 }
