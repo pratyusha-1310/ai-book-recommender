@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import BookCard from "@/components/BookCard";
+import Navbar from "@/components/Navbar";
 import { searchBooks } from "@/lib/googleBooks";
 import type { Book } from "@/types/book";
 
@@ -47,34 +47,7 @@ export default function BooksPage() {
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(129,140,248,0.25),_transparent_35%),linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_100%)] px-4 py-6 text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.28),_transparent_35%),linear-gradient(135deg,_#020617_0%,_#111827_100%)] dark:text-slate-100 sm:px-6 lg:px-8 lg:py-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <nav className="flex items-center justify-between rounded-[2rem] border border-white/70 bg-white/80 px-6 py-4 shadow-sm backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-            AI Book Recommender
-            </h2>
-
-            <div className="flex gap-5 text-sm font-medium text-slate-600 dark:text-slate-300">
-                <Link
-                    href="/"
-                    className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
-                >
-                    Home
-                </Link>
-
-                <Link
-                    href="/books"
-                    className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
-                >
-                    Browse Books
-                </Link>
-
-                <Link
-                    href="/shelves"
-                    className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
-                >
-                    My Shelves
-                </Link>
-            </div>
-        </nav>
+        <Navbar />
         <section className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_80px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 sm:p-8 lg:p-10">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">

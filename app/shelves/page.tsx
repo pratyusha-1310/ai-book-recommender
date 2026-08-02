@@ -8,6 +8,7 @@ import {
   type SavedBook,
 } from "@/lib/firestore";
 import BookCard from "@/components/BookCard";
+import Navbar from "@/components/Navbar";
 
 export default function ShelvesPage() {
   const [books, setBooks] = useState<SavedBook[]>([]);
@@ -52,16 +53,18 @@ export default function ShelvesPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto max-w-7xl">
-        <h1 className="text-4xl font-bold tracking-tight">
-          My Shelves
-        </h1>
+      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+        <Navbar />
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight">
+            My Shelves
+          </h1>
 
-        <p className="mt-3 text-slate-600 dark:text-slate-300">
-          Keep track of the books you want to read, are currently reading,
-          and have finished.
-        </p>
-
+          <p className="mt-3 text-slate-600 dark:text-slate-300">
+            Keep track of the books you want to read, are currently reading,
+            and have finished.
+          </p>
+        </div>
         {isLoading ? (
           <p className="mt-8">Loading your shelves...</p>
         ) : !isLoggedIn ? (

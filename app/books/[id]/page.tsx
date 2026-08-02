@@ -4,6 +4,7 @@ import ShelfButtons from "@/components/ShelfButtons";
 import BookNotes from "@/components/BookNotes";
 import BookRating from "@/components/BookRating";
 import BookReview from "@/components/BookReview";
+import Navbar from "@/components/Navbar";
 
 export default async function BookDetailsPage({
   params,
@@ -15,25 +16,27 @@ export default async function BookDetailsPage({
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+        <Navbar />
+
         <Link
           href="/books"
-          className="mb-6 inline-block text-sm font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+          className="inline-block text-sm font-medium text-indigo-600 hover:underline dark:text-indigo-400"
         >
           ← Back to Browse Books
         </Link>
 
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
-          <div className="flex flex-col gap-8 md:flex-row">
-            <div className="flex shrink-0 justify-center md:w-64">
+          <div className="grid gap-8 sm:grid-cols-[200px_1fr] sm:items-start lg:grid-cols-[220px_1fr] lg:gap-10">
+            <div className="flex justify-center sm:justify-start">
               <img
                 src={book.thumbnail}
                 alt={book.title}
-                className="max-h-96 w-auto rounded-lg object-contain shadow-md"
+                className="max-h-80 w-auto max-w-full rounded-xl object-contain shadow-md"
               />
             </div>
 
-            <div className="flex flex-1 flex-col">
+            <div className="min-w-0">
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 {book.title}
               </h1>
@@ -73,10 +76,28 @@ export default async function BookDetailsPage({
                   {book.description}
                 </p>
               </div>
-              <ShelfButtons book={book} />
-              <BookNotes bookId={book.id} />
-              <BookRating bookId={book.id} />
-              <BookReview bookId={book.id} />
+              <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50/70 p-5 dark:border-slate-700 dark:bg-slate-800/50 sm:p-6">
+                <div className="mb-6">
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">
+                    My Reading
+                  </p>
+
+                  <h2 className="mt-1 text-xl font-semibold text-slate-900 dark:text-white">
+                    Your space for this book
+                  </h2>
+
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                    Manage your shelf, private notes, personal rating, and review.
+                  </p>
+                </div>
+
+                <div className="space-y-6">
+                  <ShelfButtons book={book} />
+                  <BookNotes bookId={book.id} />
+                  <BookRating bookId={book.id} />
+                  <BookReview bookId={book.id} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

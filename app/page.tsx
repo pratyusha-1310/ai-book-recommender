@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import BookCard from "@/components/BookCard";
 import LoginButton from "@/components/LoginButton";
+import Navbar from "@/components/Navbar";
 import { searchBooks} from "@/lib/googleBooks";
 import type { Book } from "@/types/book";
+
 
 const featuredBooks = [
   {
@@ -93,25 +95,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(129,140,248,0.25),_transparent_35%),linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_100%)] px-4 py-6 text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.28),_transparent_35%),linear-gradient(135deg,_#020617_0%,_#111827_100%)] dark:text-slate-100 sm:px-6 lg:px-8 lg:py-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:gap-8">
-        <header className="flex items-center justify-between rounded-full border border-white/70 bg-white/70 px-4 py-3 shadow-sm backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 sm:px-6">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-500 text-lg font-semibold text-white">
-              AI
-            </div>
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                AI Book Recommender
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Curated for your next favorite read</p>
-            </div>
-          </div>
-          <a
-            href="#featured"
-            className="rounded-full border border-slate-200 bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:border-slate-700 dark:bg-slate-100 dark:text-slate-900"
-          >
-            Explore Books
-          </a>
-        </header>
+        <Navbar />
 
         <section className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_80px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 sm:p-8 lg:p-12">
           <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
